@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% if shiki_requiered %}
+<div class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div class="bg-[#121212] rounded-xl p-6 shadow-lg w-[90%] max-w-md">
+        <h2 class="text-white text-lg font-semibold mb-4 text-center">Требуется авторизация на Shikimori</h2>
+        <p class="text-gray-300 mb-6 text-center text-sm">Чтобы продолжить, привяжите аккаунт Shikimori.</p>
+
+        <a href="{{shiki_url}}" class="flex items-center justify-center btn-gradient font-medium rounded-md px-4 py-3 w-full select-none">
+            <img src="https://shikimori.one/assets/layouts/l-top_menu-v2/glyph.svg" style="filter: brightness(0) saturate(100%);" alt="Shikimori logo" class="w-6 h-6 mr-3"/>
+            Привязать Shikimori
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<img class="logo mx-auto w-full max-w-[280px]" src="/resources/logo.webp" alt="Лого">
+
+<div class="input-block text-center px-4" style="text-align: center;">
+    <input type="text" id="searchInput" placeholder="Название" autocomplete="off">
+    <input type="text" id="shikiInput" placeholder="ID Shikimori" autocomplete="off">
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <p style="margin: 0; padding: 0; display: inline-block; font-size: 0.75rem; line-height: 1rem; --tw-text-opacity: 1; color: rgb(55 65 81 / var(--tw-text-opacity, 1));">
+        ID: {% if current_user.is_authenticated %}{{ current_user.auth_id }}{% else %}Unauthenticated{% endif %}
+    </p>
+</div>
+
+{% endblock %}
