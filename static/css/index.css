@@ -49,6 +49,15 @@ input {
   font-size: 1rem;
   border-radius: 8px;
   width: 100%;
+  line-height: normal;
+}
+
+input[type="text"] {
+  padding: 0.75rem 2.75rem 0.75rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -74,15 +83,6 @@ input::placeholder {
 	.input-block {
 		width: 25%;
 	}
-}
-
-
-input[type="text"] {
-  padding: 0.75rem 2.75rem 0.75rem 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
 }
 
 .hidden {
