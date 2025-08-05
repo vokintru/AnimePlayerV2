@@ -23,6 +23,8 @@ def title_translations(title_id):
 @login_required
 def title_info(title_id):
     res = api.shikimori.get_title_info(title_id, current_user.shiki_access_token)
+    if res == {'error': 'reauth'}:
+        return 'reauth', 403
     return res, 200
 
 
@@ -30,6 +32,8 @@ def title_info(title_id):
 @login_required
 def title_related(title_id):
     res = api.shikimori.get_title_related(title_id, current_user.shiki_access_token)
+    if res == {'error': 'reauth'}:
+        return 'reauth', 403
     return res, 200
 
 
@@ -52,6 +56,8 @@ def title_watch(title_id):
     # anilibria
     if translation == "610" or translation == "3861":
         original_name = api.shikimori.get_title_info(title_id, current_user.shiki_access_token)['original_name']
+        if original_name == {'error': 'reauth'}:
+            return 'reauth', 403
         anilibria_id = api.anilibria.get_anime_id(original_name)
         if anilibria_id:
             all_episodes = api.anilibria.get_episodes(anilibria_id)

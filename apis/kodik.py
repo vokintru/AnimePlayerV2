@@ -14,12 +14,15 @@ def get_info(title_id):
 
 
 def search(query):
-    result = kodik_parser.search(query, limit=50)
+    try:
+        result = kodik_parser.search(query, limit=50)
+    except NoResults:
+        return []
     out = []
     for res in result:
         if res['shikimori_id'] is not None:
-            print(res)
             out.append({
+                'id': res['shikimori_id'],
                 'name': res['title'],
                 'type': res['material_data']['anime_kind'],
                 'status': res['material_data']['all_status'],

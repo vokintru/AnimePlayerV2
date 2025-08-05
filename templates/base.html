@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block title %}
     <title>Поиск Аниме</title>
-    <link rel="icon" href="#href" type="image/x-icon">
     {% endblock %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="icon" href="#href" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
-<body>
+<body class="cbody">
     {% block content %}{% endblock %}
 </body>
 </html>

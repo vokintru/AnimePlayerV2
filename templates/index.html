@@ -4,8 +4,8 @@
 <img class="logo mx-auto w-full max-w-[280px]" src="/resources/logo.webp" alt="Лого">
 
 <div class="input-block text-center px-4" style="text-align: center;">
-    <input type="text" id="searchInput" placeholder="Название" autocomplete="off">
-    <input type="text" id="shikiInput" placeholder="ID Shikimori" autocomplete="off">
+    <input class="cinput" type="text" id="searchInput" placeholder="Название" autocomplete="off">
+    <input class="cinput" type="text" id="shikiInput" placeholder="ID Shikimori" autocomplete="off">
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <p style="margin: 0; padding: 0; display: inline-block; font-size: 0.75rem; line-height: 1rem; --tw-text-opacity: 1; color: rgb(55 65 81 / var(--tw-text-opacity, 1));">
         ID: {% if current_user.is_authenticated %}{{ current_user.auth_id }}{% else %}Unauthenticated{% endif %}
