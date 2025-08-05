@@ -6,6 +6,14 @@ let infoTimerActive = false;
 const searchInput = document.getElementById('searchInput');
 const container = document.getElementById('resultContainer');
 
+function redirectIfReauth(response, json = null) {
+	if (response.status === 403 || json === 'reauth') {
+		window.location.href = '/shiki_auth_link';
+		return true;
+	}
+	return false;
+}
+
 searchInput.addEventListener('input', () => handleSearch(searchInput.value.trim()));
 window.addEventListener('DOMContentLoaded', () => {
 	const initialQuery = searchInput.value.trim();
@@ -23,7 +31,7 @@ function handleSearch(query) {
 		infoQueue = [];
 
 		try {
-			const searchResponse = await fetch(`/api/v1/search/${encodeURIComponent(query)}`);
+			const searchResponse = await fetch(/api/v1/search/${encodeURIComponent(query)});
 			if (!searchResponse.ok) throw new Error('Ошибка запроса поиска');
 
 			const searchResults = await searchResponse.json();
@@ -36,14 +44,14 @@ function handleSearch(query) {
 
 			searchResults.forEach((item, index) => {
 				const link = document.createElement('a');
-				link.href = `/release?id=${item.id}`;
+				link.href = /release?id=${item.id};
 				link.className = 'block';
 
 				const placeholder = document.createElement('div');
 				placeholder.className = 'flex items-start gap-6 text-white p-2 rounded-lg max-w-2xl';
 				placeholder.dataset.id = item.id;
 
-				placeholder.innerHTML = `
+				placeholder.innerHTML =
 					<img
 						src="/resources/no_poster.jpg"
 						alt="Постер"
@@ -55,7 +63,7 @@ function handleSearch(query) {
 						<p><span class="font-semibold">Статус:</span> <span class="text-gray-300">—</span></p>
 						<p><span class="font-semibold">Эпизодов:</span> <span class="text-gray-300">—</span></p>
 					</div>
-				`;
+				;
 
 				link.appendChild(placeholder);
 				container.appendChild(link);
@@ -94,10 +102,17 @@ function startInfoQueue() {
 async function loadTitleInfo(id, placeholder, requestId) {
 	try {
 		const infoResponse = await fetch(`/api/v1/title/${id}/info`);
-		if (!infoResponse.ok) throw new Error('Ошибка запроса info');
+		if (!infoResponse.ok) {
+			if (infoResponse.status === 403) {
+				window.location.href = '/shiki_auth_link';
+				return;
+			}
+			throw new Error('Ошибка запроса info');
+		}
 		if (requestId !== currentRequestId) return;
 
 		const info = await infoResponse.json();
+		if (redirectIfReauth(infoResponse, info)) return;
 
 		placeholder.innerHTML = `
 			<img
