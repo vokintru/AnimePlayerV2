@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Загрузка...</title>
+{% endblock %}
+{% block css %}
+<style>
+    .cbody {
+        margin-top: 3vh;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
+        <img src="/resources/no_poster.jpg" id="banner" alt="Постер" class="w-60 rounded shadow-lg" />
+        <div class="flex-1 space-y-2" id="info-container">
+            <h1 class="text-2xl font-bold" id="title"><span class="placeholder" style="width: 27ch;"></span></h1>
+            <p><span class="placeholder" style="width: 14ch;"></span></p>
+            <p><span class="placeholder" style="width: 13ch;"></span></p>
+            <p><span class="placeholder" style="width: 12ch;"></span></p>
+            <p><span class="placeholder" style="width: 25ch;"></span></p>
+            <p><span class="placeholder" style="width: 16ch;"></span></p>
+            <p><span class="placeholder" style="width: 41ch;"></span></p>
+        </div>
+    </div>
+
+    <div class="mt-10" id="translations">
+        <h2 class="text-xl font-semibold mb-4">Переводы:</h2>
+        <div class="flex flex-wrap gap-4" id="translations-container">
+        </div>
+    </div>
+
+    <div class="mt-10 hidden" id="related-titles">
+        <h2 class="text-xl font-semibold mb-4">Связанные произведения:</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="related-container"></div>
+    </div>
+</div>
+
+<script>
+	const release_id = "{{release_id}}";
+</script>
+<script src="{{ url_for('static', filename='js/title.js') }}"></script>
+{% endblock %}

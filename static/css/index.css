@@ -13,9 +13,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
   box-sizing: border-box;
   transition: background 0.3s, color 0.3s;
+  padding-top: env(safe-area-inset-top);
+  padding-left: calc(1rem + env(safe-area-inset-left));
+  padding-right: calc(1rem + env(safe-area-inset-right));
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
 }
 
 .home-btn {
@@ -140,3 +143,41 @@
   font-weight: bold;
   unicode-bidi: isolate;
 }
+
+.placeholder {
+  display: inline-block;
+  color: transparent;
+  height: 1em;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+  vertical-align: text-bottom; /* чтобы выровнять по базовой линии текста */
+  /* можно задать font-size/line-height если нужно */
+}
+
+.placeholder::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(204, 204, 204, 1) 50%,
+    transparent
+  );
+  animation: shimmer 1s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+

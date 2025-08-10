@@ -33,6 +33,15 @@ def resources(path: str):
     else:
         return abort(404)
 
+@app.route('/wpa/<string:path>')
+def resources_wpa(path: str):
+    if os.path.exists(f'resources\\wpa\\{path}'):  # Windows-like
+        return send_file(f'resources\\wpa\\{path}')
+    elif os.path.exists(f'resources/wpa/{path}'):  # Unix
+        return send_file(f'resources/wpa/{path}')
+    else:
+        return abort(404)
+
 
 if __name__ == "__main__":
     db_session.global_init("database.db")

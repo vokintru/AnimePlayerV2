@@ -61,6 +61,7 @@ def refresh_token(token):
             'token': rest_json['access_token']}
 
 
+
 def get_title_info(title_id, token):
     resp = request("GET", f"https://shikimori.one/api/animes/{title_id}",
                    headers={
@@ -69,18 +70,40 @@ def get_title_info(title_id, token):
                    })
     if resp == 'reauth':
         return {'error': 'reauth'}
+
+    kind_map = {
+        'tv': 'ТВ Сериал',
+        'movie': 'Фильм',
+        'ona': 'ONA',
+        'ova': 'OVA',
+        'special': 'Спецвыпуск'
+    }
+
+    status_map = {
+        'released': 'Вышло',
+        'ongoing': 'Онгоинг',
+        'anons': 'Анонс'
+    }
+    rating_map = {
+        'g': 'G',
+        'pg': 'PG',
+        'pg_13': 'PG-13',
+        'r': 'R-17',
+        'r_plus': 'R+',
+        'rx': 'Rx',
+    }
     return {
         'name': resp['russian'],
         'original_name': resp['name'],
         'poster': 'https://shikimori.one' + resp['image']['original'],
-        'type': resp['kind'],
+        'type': kind_map.get(resp['kind'], resp['kind']),
         'score': resp['score'],
-        'status': resp['status'],
+        'status': status_map.get(resp['status'], resp['status']),
         'total_episodes': resp['episodes'],
         'released_episodes': resp['episodes_aired'],
         'started': resp['aired_on'],
         'released': resp['released_on'],
-        'rating': resp['rating'],
+        'rating': rating_map.get(resp['rating'], resp['rating']),
         'is_anons': resp['anons'],
         'is_ongoing': resp['ongoing'],
         'next_episode_at': resp['next_episode_at'],

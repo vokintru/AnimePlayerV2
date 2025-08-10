@@ -1,7 +1,12 @@
 import requests
 
 def get_anime_id(name):
-    res = requests.get(f'https://aniliberty.top/api/v1/anime/catalog/releases?f%5Bsearch%5D={name}&limit=1')
+    try:
+        res = requests.get(f'https://aniliberty.top/api/v1/anime/catalog/releases?f%5Bsearch%5D={name}&limit=1')
+    except requests.exceptions.SSLError:
+        return None
+    if len(res.json()['data']) == 0:
+        return None
     if res.json()['data'][0]['name']['english'] == name:
         return res.json()['data'][0]['id']
     else:

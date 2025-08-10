@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Загрузка...</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- Заголовок -->
+<h1 class="text-2xl font-medium mb-4">Серия X</h1>
+
+<!-- Панель кнопок -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+<button class="w-8 h-8 border border-black"></button>
+<button class="w-36 h-8 border border-black"></button>
+<button class="w-36 h-8 border border-black"></button>
+<button class="w-8 h-8 border border-black"></button>
+</div>
+
+<!-- Видео -->
+<video class="bg-black w-full max-w-[800px] aspect-video" controls>
+<source src="video.mp4" type="video/mp4">
+Ваш браузер не поддерживает видео.
+</video>
+
+<script>
+	const release_id = "{{title_id}}";
+</script>
+<script src="{{ url_for('static', filename='js/watch.js') }}"></script>
+{% endblock %}

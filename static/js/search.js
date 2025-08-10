@@ -31,7 +31,7 @@ function handleSearch(query) {
 		infoQueue = [];
 
 		try {
-			const searchResponse = await fetch(/api/v1/search/${encodeURIComponent(query)});
+			const searchResponse = await fetch(`/api/v1/search/${encodeURIComponent(query)}`);
 			if (!searchResponse.ok) throw new Error('Ошибка запроса поиска');
 
 			const searchResults = await searchResponse.json();
@@ -44,7 +44,7 @@ function handleSearch(query) {
 
 			searchResults.forEach((item, index) => {
 				const link = document.createElement('a');
-				link.href = /release?id=${item.id};
+				link.href = `/release?id=${item.id}`;
 				link.className = 'block';
 
 				const placeholder = document.createElement('div');
@@ -52,7 +52,7 @@ function handleSearch(query) {
 				placeholder.dataset.id = item.id;
 
 				placeholder.innerHTML =
-					<img
+					`<img
 						src="/resources/no_poster.jpg"
 						alt="Постер"
 						class="w-full max-w-[120px] h-auto rounded-md object-cover"
@@ -62,7 +62,7 @@ function handleSearch(query) {
 						<p><span class="font-semibold">Тип:</span> <span class="text-gray-300">—</span></p>
 						<p><span class="font-semibold">Статус:</span> <span class="text-gray-300">—</span></p>
 						<p><span class="font-semibold">Эпизодов:</span> <span class="text-gray-300">—</span></p>
-					</div>
+					</div>`
 				;
 
 				link.appendChild(placeholder);
