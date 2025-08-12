@@ -28,6 +28,10 @@ def shiki_callback():
             user = db_sess.query(User).filter(User.id == current_user.id).first()
             user.shiki_access_token = resp['access_token']
             user.shiki_refresh_token = resp['refresh_token']
+            r = requests.get('https://shikimori.one/api/users/whoami',
+                      headers={'User-Agent': 'v0k1nt.su search',
+                               'Authorization': f'Bearer {user.shiki_access_token}'})
+            user.shiki_user_id = r.json()['id']
             db_sess.commit()
             db_sess.close()
             return redirect('/')

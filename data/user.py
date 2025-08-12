@@ -18,6 +18,7 @@ class User(SqlAlchemyBase, UserMixin):
     subed = sqlalchemy.Column(sqlalchemy.Boolean)
     shiki_access_token =  sqlalchemy.Column(sqlalchemy.String)
     shiki_refresh_token = sqlalchemy.Column(sqlalchemy.String)
+    shiki_user_id = sqlalchemy.Column(sqlalchemy.Integer)
 
 
     def __repr__(self):

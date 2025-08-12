@@ -4,6 +4,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 	await loadRelated();
 });
 
+async function loadTitlePoster() {
+	const res = await fetch(`/api/v1/title/${release_id}/info/poster`);
+	if (!res.ok) {
+			if (res.status === 403) {
+				window.location.href = '/shiki_auth_link';
+				return;
+			}
+			throw new Error('Ошибка запроса info');
+		}
+	const data = await res.text();
+	const posterImg = document.getElementById("banner");
+	if (posterImg && data) {
+		posterImg.src = data;
+	}
+}
+
 async function loadTitleInfo() {
 	const res = await fetch(`/api/v1/title/${release_id}/info`);
 	if (!res.ok) {
@@ -21,6 +37,8 @@ async function loadTitleInfo() {
 	if (posterImg && data.poster) {
 		posterImg.src = data.poster;
 	}
+	loadTitlePoster();
+
 
 	document.title = data.name;
 

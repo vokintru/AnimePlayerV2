@@ -41,6 +41,25 @@ def title_info(title_id):
         return 'reauth', 403
     return res, 200
 
+@api_bp.route("/title/<int:title_id>/info/poster")
+@login_required
+def title_info_poster(title_id):
+    user_id = current_user.id
+    now = time.time()
+    user_requests[user_id] = [t for t in user_requests[user_id] if now - t < 1]
+    if len(user_requests[user_id]) >= 4:
+        wait_time = 1 - (now - user_requests[user_id][0])
+        if wait_time > 0:
+            time.sleep(wait_time)
+        now = time.time()
+        user_requests[user_id] = [t for t in user_requests[user_id] if now - t < 1]
+    user_requests[user_id].append(time.time())
+
+    res = api.shikimori.get_title_poster_highres(title_id, current_user.shiki_access_token)
+    if res == {'error': 'reauth'}:
+        return 'reauth', 403
+    return res, 200
+
 
 @api_bp.route("/title/<int:title_id>/related")
 @login_required
