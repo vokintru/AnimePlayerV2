@@ -29,11 +29,18 @@ def search():
     else:
         return redirect('https://v0k1nt.su/?error=Не оформлена подписка!')
 
-@main_bp.route("/release")
+@main_bp.route("/search/<string:query>")
 @login_required
-def release():
+def search_with_query(query):
     if current_user.subed:
-        release_id = request.args.get('id', default=None)
+        return render_template("search.html", query=query)
+    else:
+        return redirect('https://v0k1nt.su/?error=Не оформлена подписка!')
+
+@main_bp.route("/release/<int:release_id>")
+@login_required
+def release(release_id):
+    if current_user.subed:
         return render_template("release.html", release_id=release_id)
     else:
         return redirect('https://v0k1nt.su/?error=Не оформлена подписка!')
@@ -45,3 +52,11 @@ def watch(title_id, translation_id):
         return render_template("watch.html", title_id=title_id, translation_id=translation_id)
     else:
         return redirect('https://v0k1nt.su/?error=Не оформлена подписка!')
+
+
+#old ways
+
+@main_bp.route("/release")
+def old_release():
+    release_id = request.args.get('id', default=None)
+    return redirect(f'/release/{release_id}', code=301)

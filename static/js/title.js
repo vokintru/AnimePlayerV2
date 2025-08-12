@@ -6,7 +6,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function loadTitleInfo() {
 	const res = await fetch(`/api/v1/title/${release_id}/info`);
-	if (!res.ok) return;
+	if (!res.ok) {
+			if (res.status === 403) {
+				window.location.href = '/shiki_auth_link';
+				return;
+			}
+			throw new Error('Ошибка запроса info');
+		}
 
 	const data = await res.json();
 	document.getElementById("title").textContent = data.name;
@@ -74,7 +80,13 @@ async function loadTranslations() {
 
 async function loadRelated() {
 	const res = await fetch(`/api/v1/title/${release_id}/related`);
-	if (!res.ok) return;
+	if (!res.ok) {
+			if (res.status === 403) {
+				window.location.href = '/shiki_auth_link';
+				return;
+			}
+			throw new Error('Ошибка запроса info');
+		}
 
 	const data = await res.json();
 	const container = document.getElementById("related-container");

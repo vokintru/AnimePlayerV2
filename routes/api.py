@@ -64,9 +64,9 @@ def title_watch(title_id):
     try:
         res = api.kodik.watch_link(title_id, episode, translation)
         out['kodik'] = {
-            "360p": res + "360.mp4:hls:manifest.m3u8",
-            "480p": res + "480.mp4:hls:manifest.m3u8",
             "720p": res + "720.mp4:hls:manifest.m3u8",
+            "480p": res + "480.mp4:hls:manifest.m3u8",
+            "360p": res + "360.mp4:hls:manifest.m3u8",
         }
     except NoResults:
         pass
@@ -90,6 +90,6 @@ def title_watch(title_id):
             all_episodes = api.dreamcast.get_series(dreamcast_url)
             if all_episodes is not None:
                 out['dreamcast'] = {
-                    'auto': all_episodes[int(episode)]
+                    'auto': f"!iframe https://player.dreamerscast.com/embed/{all_episodes[int(episode)].split('/')[4]}"
                 }
     return out, 200

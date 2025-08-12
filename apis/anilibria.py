@@ -2,8 +2,8 @@ import requests
 
 def get_anime_id(name):
     try:
-        res = requests.get(f'https://aniliberty.top/api/v1/anime/catalog/releases?f%5Bsearch%5D={name}&limit=1')
-    except requests.exceptions.SSLError:
+        res = requests.get(f'https://anilibria.top/api/v1/anime/catalog/releases?f%5Bsearch%5D={name}&limit=1')
+    except requests.exceptions.ConnectionError:
         return None
     if len(res.json()['data']) == 0:
         return None
@@ -13,7 +13,7 @@ def get_anime_id(name):
         return None
 
 def get_episodes(title_id):
-    res = requests.get(f'https://aniliberty.top/api/v1/anime/releases/{title_id}')
+    res = requests.get(f'https://anilibria.top/api/v1/anime/releases/{title_id}')
     episodes = {}
     for episode in res.json()["episodes"]:
         data = {

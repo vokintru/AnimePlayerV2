@@ -6,24 +6,80 @@
 {% block content %}
 
 <!-- Заголовок -->
-<h1 class="text-2xl font-medium mb-4">Серия X</h1>
+<h1 class="text-2xl font-medium mb-6">Серия <span id="episodeNumber">1</span></h1>
 
-<!-- Панель кнопок -->
-<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-<button class="w-8 h-8 border border-black"></button>
-<button class="w-36 h-8 border border-black"></button>
-<button class="w-36 h-8 border border-black"></button>
-<button class="w-8 h-8 border border-black"></button>
+<div class="relative w-full max-w-[800px] mx-auto">
+  <div class="flex items-center justify-between w-full gap-4">
+    <button id="prevBtn"
+      class="flex-shrink-0 w-8 h-8 border border-zinc-700 bg-zinc-800 rounded shadow
+         hover:bg-zinc-700 hover:border-zinc-600">
+      <b>←</b>
+    </button>
+    <div class="flex gap-4 mx-auto max-w-[320px] w-full max-w-[320px]">
+      <button id="skipBtn" class="flex-grow h-8 min-w-[80px] max-w-[150px] border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 rounded shadow flex items-center justify-center gap-1 px-3 py-1">
+          <span class="text-sm"><b>⇒</b> Скип 1:25</span>
+      </button>
+      <button id="settingsBtn"
+        class="flex-grow h-8 min-w-[80px] max-w-[150px] border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 rounded shadow flex items-center justify-center gap-1 px-3 py-1">
+        <span class="text-sm"><b>⚙</b> Параметры</span>
+      </button>
+    </div>
+    <button id="nextBtn"
+        class="flex-shrink-0 w-8 h-8 border border-zinc-700 bg-zinc-800 rounded shadow
+         hover:bg-zinc-700 hover:border-zinc-600">
+        <b>→</b>
+    </button>
+  </div>
+
+  <div id="playerContainer" class="bg-black w-full aspect-video mt-4 relative">
+    <!-- Здесь будет либо video, либо iframe -->
+    <video id="videoPlayer" class="w-full h-full" controls></video>
+  </div>
 </div>
 
-<!-- Видео -->
-<video class="bg-black w-full max-w-[800px] aspect-video" controls>
-<source src="video.mp4" type="video/mp4">
-Ваш браузер не поддерживает видео.
-</video>
+<!-- Модальное окно настроек -->
+<div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-zinc-800 rounded-xl shadow-lg w-full max-w-lg p-5 relative text-white">
+    <!-- "dev" в углу -->
+    <span id="devBtn"
+          class="absolute top-3 right-4 text-sm text-zinc-400 cursor-pointer"
+          style="border-bottom: 1px dashed;">
+      dev
+    </span>
+
+    <h2 class="text-lg font-semibold mb-4">Выберите плеер и качество</h2>
+    <div id="playersList" class="space-y-3"></div>
+    <button id="reloadPlayerBtn" class="w-full mt-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded">
+      Перезагрузить плеер
+    </button>
+    <button id="closeSettings" class="w-full mt-2 py-2 bg-zinc-700 hover:bg-zinc-600 rounded">
+      Закрыть
+    </button>
+  </div>
+</div>
+
+<!-- Dev-модалка -->
+<div id="devModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-zinc-800 rounded-xl shadow-lg w-full max-w-lg p-5 relative text-white">
+    <button onclick="closeDevModal()" class="absolute top-3 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
+
+    <h2 id="modal-title" class="text-lg font-semibold mb-4 text-center">Заголовок</h2>
+
+    <textarea
+      id="modal-input"
+      class="w-full bg-[#1a1a1a] text-sm text-neutral-300 px-2 py-1 rounded font-mono"
+      style="resize: none;"
+      rows="6"
+      disabled
+    ></textarea>
+  </div>
+</div>
+
 
 <script>
 	const release_id = "{{title_id}}";
+    const translation_id = "{{translation_id}}";
 </script>
 <script src="{{ url_for('static', filename='js/watch.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 {% endblock %}
